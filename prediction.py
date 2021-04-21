@@ -150,6 +150,22 @@ def load_model(path):
     except Exception as e:
         print(e)
 
+# Load models
+# Load the plate recognition model
+wpod_net_path = "models/wpod-net.json"
+wpod_net = load_model(wpod_net_path)
+
+# Load the character recognition model
+character_net_path = 'models/character_recoginition/MobileNets_character_recognition.json'
+character_model = load_model(character_net_path)
+print("[INFO] Model loaded successfully...")
+
+# Load the character classes
+labels = LabelEncoder()
+labels.classes_ = np.load('models/character_recoginition/license_character_classes.npy')
+print("[INFO] Labels loaded successfully...")
+
+
 ######################################################################################
 # Converts colors from BGR (as read by OpenCV) to RGB (so that we can display them), #
 # also eventually resizes the image to fit the size the model has been trained on    #
@@ -347,21 +363,6 @@ def  lpr_process(input_image_path):
         #print(json.dumps(result))
         return vehicle, LpImg, 'Not able to read license plate'
     
-# Load models
-# Load the plate recognition model
-wpod_net_path = "models/wpod-net.json"
-wpod_net = load_model(wpod_net_path)
-
-# Load the character recognition model
-character_net_path = 'models/character_recoginition/MobileNets_character_recognition.json'
-character_model = load_model(character_net_path)
-print("[INFO] Model loaded successfully...")
-
-# Load the character classes
-labels = LabelEncoder()
-labels.classes_ = np.load('models/character_recoginition/license_character_classes.npy')
-print("[INFO] Labels loaded successfully...")
-
 
 def process_file(filename):
     if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
